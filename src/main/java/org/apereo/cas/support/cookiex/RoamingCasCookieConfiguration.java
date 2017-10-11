@@ -18,8 +18,8 @@ public class RoamingCasCookieConfiguration {
     private CasConfigurationProperties casProperties;
 
     @Bean(name = {"roamingCookieValueManager", "cookieValueManager"})
-    public CookieValueManager ookieValueManager(@Qualifier("cookieCipherExecutor") final CipherExecutor cipherExecutor) {
-        if (casProperties.getTgc().isCipherEnabled()) {
+    public CookieValueManager cookieValueManager(@Qualifier("cookieCipherExecutor") final CipherExecutor cipherExecutor) {
+        if (casProperties.getTgc().getCrypto().isEnabled()) {
             return new RoamingCasCookieValueManager(cipherExecutor);
         }
         return new NoOpCookieValueManager();

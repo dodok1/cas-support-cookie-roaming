@@ -2,7 +2,6 @@ package org.apereo.cas.support.cookiex;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apereo.cas.CipherExecutor;
-import org.apereo.cas.util.cipher.NoOpCipherExecutor;
 import org.apereo.cas.web.support.DefaultCasCookieValueManager;
 import org.apereo.cas.web.support.WebUtils;
 import org.slf4j.Logger;
@@ -40,14 +39,13 @@ public class RoamingCasCookieValueManager extends DefaultCasCookieValueManager {
         final String remoteAddr = cookieParts[1];
         final String userAgent = cookieParts[2];
 
-        if (StringUtils.isBlank(value) || StringUtils.isBlank(remoteAddr)
-                || StringUtils.isBlank(userAgent)) {
+        if (StringUtils.isBlank(value) || StringUtils.isBlank(remoteAddr) || StringUtils.isBlank(userAgent)) {
             throw new IllegalStateException("Invalid cookie. Required fields are empty");
         }
 
         final String agent = WebUtils.getHttpServletRequestUserAgent(request);
         if (!userAgent.equals(agent)) {
-            throw new IllegalStateException("Invalid cookie. Required user-agent does not match " + agent);
+            throw new IllegalStateException("Invalid cookie. Required user-agent " + userAgent + " does not match " + agent);
         }
         return value;
     }
