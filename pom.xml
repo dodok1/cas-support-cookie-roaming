@@ -6,7 +6,7 @@
     <groupId>org.apereo.cas</groupId>
     <artifactId>cas-server-support-cookie-roaming</artifactId>
     <packaging>jar</packaging>
-    <version>5.2.0-RC3</version>
+    <version>5.2.0</version>
 
     <build>
         <plugins>
@@ -27,12 +27,6 @@
         <dependency>
             <groupId>org.apereo.cas</groupId>
             <artifactId>cas-server-core-util</artifactId>
-            <version>${project.version}</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.apereo.cas</groupId>
-            <artifactId>cas-server-core-web</artifactId>
             <version>${project.version}</version>
             <scope>compile</scope>
         </dependency>
