@@ -6,7 +6,7 @@
     <groupId>org.apereo.cas</groupId>
     <artifactId>cas-server-support-cookie-roaming</artifactId>
     <packaging>jar</packaging>
-    <version>5.2.0</version>
+    <version>5.3.0</version>
 
     <build>
         <plugins>
@@ -26,26 +26,32 @@
     <dependencies>
         <dependency>
             <groupId>org.apereo.cas</groupId>
-            <artifactId>cas-server-core-util</artifactId>
+            <artifactId>cas-server-core-util-api</artifactId>
             <version>${project.version}</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>org.apereo.cas</groupId>
-            <artifactId>cas-server-core-configuration</artifactId>
+            <artifactId>cas-server-core-configuration-api</artifactId>
             <version>${project.version}</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>org.apereo.cas</groupId>
-            <artifactId>cas-server-support-cookie</artifactId>
+            <artifactId>cas-server-core-web-api</artifactId>
+            <version>${project.version}</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apereo.cas</groupId>
+            <artifactId>cas-server-core-cookie-api</artifactId>
             <version>${project.version}</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>javax.servlet</groupId>
-            <artifactId>servlet-api</artifactId>
-            <version>2.5</version>
+            <artifactId>javax.servlet-api</artifactId>
+            <version>3.1.0</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>

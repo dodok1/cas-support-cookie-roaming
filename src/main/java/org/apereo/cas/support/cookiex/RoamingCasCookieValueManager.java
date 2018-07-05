@@ -1,43 +1,33 @@
 package org.apereo.cas.support.cookiex;
 
+import com.google.common.base.Splitter;
 import org.apache.commons.lang3.StringUtils;
 import org.apereo.cas.CipherExecutor;
 import org.apereo.cas.util.HttpRequestUtils;
 import org.apereo.cas.web.support.DefaultCasCookieValueManager;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import java.io.Serializable;
+import java.util.List;
+
 
 public class RoamingCasCookieValueManager extends DefaultCasCookieValueManager {
-    private static final Logger LOGGER = LoggerFactory.getLogger(RoamingCasCookieValueManager.class);
     private static final char COOKIE_FIELD_SEPARATOR = '@';
     private static final int COOKIE_FIELDS_LENGTH = 3;
 
-    private CipherExecutor<String, String> cipherExecutor;
-
-    public RoamingCasCookieValueManager(final CipherExecutor cipherExecutor) {
+    public RoamingCasCookieValueManager(final CipherExecutor<Serializable, Serializable> cipherExecutor) {
         super(cipherExecutor);
-        this.cipherExecutor = cipherExecutor;
     }
 
     @Override
-    public String obtainCookieValue(final Cookie cookie, final HttpServletRequest request) {
-        final String cookieValue = this.cipherExecutor.decode(cookie.getValue());
-        LOGGER.debug("Decoded cookie value is [{}]", cookieValue);
-        if (StringUtils.isBlank(cookieValue)) {
-            LOGGER.debug("Retrieved decoded cookie value is blank. Failed to decode cookie [{}]", cookie.getName());
-            return null;
-        }
-
-        final String[] cookieParts = cookieValue.split(String.valueOf(COOKIE_FIELD_SEPARATOR));
-        if (cookieParts.length != COOKIE_FIELDS_LENGTH) {
+    protected String obtainValueFromCompoundCookie(final String cookieValue, final HttpServletRequest request) {
+        final List<String> cookieParts = Splitter.on(String.valueOf(COOKIE_FIELD_SEPARATOR)).splitToList(cookieValue);
+        if (cookieParts.size() != COOKIE_FIELDS_LENGTH) {
             throw new IllegalStateException("Invalid cookie. Required fields are missing");
         }
-        final String value = cookieParts[0];
-        final String remoteAddr = cookieParts[1];
-        final String userAgent = cookieParts[2];
+        final String value = cookieParts.get(0);
+        final String remoteAddr = cookieParts.get(1);
+        final String userAgent = cookieParts.get(2);
 
         if (StringUtils.isBlank(value) || StringUtils.isBlank(remoteAddr) || StringUtils.isBlank(userAgent)) {
             throw new IllegalStateException("Invalid cookie. Required fields are empty");
@@ -49,4 +39,5 @@ public class RoamingCasCookieValueManager extends DefaultCasCookieValueManager {
         }
         return value;
     }
+
 }
